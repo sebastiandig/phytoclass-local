@@ -12,106 +12,60 @@
 #'
 #' @examples
 # Inputs are F and which elements to vary, should be all elements
-Fac_F_RR <- function(Fmat, vary, S, cm, fac_rr = c(1,2,3), place = NULL) {
-  F.locs <- vector()
-
+Fac_F_RR <- function(Fmat, vary, S, cm, fac_rr = c(1, 2, 3), place = NULL) {
+  
+  # which min and max scale values to use
   rand_var <-
     switch(
       fac_rr,
       list(min.scaler = 0.99, max.scaler = 1.01),
       list(min.scaler = 0.98, max.scaler = 1.02),
       list(min.scaler = 0.97, max.scaler = 1.03)
-      )
-  
+    )
+
   # randomises every element in 'vary' then retest RMSE to prev RMSE
- 
   F.new <- lapply(
-    vary, function(i) {
+    vary, 
+    function(i) {
       Replace_Rand(
-        Fmat, i, S, cm, 
-        min.scaler = rand_var$min.scaler, 
+        Fmat, i, S, cm,
+        min.scaler = rand_var$min.scaler,
         max.scaler = rand_var$max.scaler
       )
-    })
-  
-  # Shows which elements reduce error
-  # cont1 <- lapply(
-  #   1:length(F.new), 
-  #   function(i) {
-  #     c <- which(length(F.new[[i]]) == 4)
-  #   })
-  
-  # if RMSE is better, will extract all the elements that reduce RMSE 
-  conts <- sapply(F.new, function(i) {i[4]}) # vector of TRUE/FALSE for each varied pigment
-  
-  conts <- which(conts == 1) # index which pigments decreases error
-  
+    }
+  )
+
+  # if RMSE is better, will extract all the elements that reduce RMSE
+  # list of TRUE/FALSE for each varied pigment
+  conts <- vapply(F.new, function(i) {i[[4]]}, logical(1)) 
+  conts <- which(conts) # index which pigments decreases error
+
   # Procedure for if no elements reduce error
-# browser()
+
   # when at least one element reduces error
-  # if (!is.null(length(conts))) {
   if (length(conts) > 0) {
-    # cont1 <- as.list(vary[conts]) # select the ratios run that decrease error
-    # conts <- as.list(conts)       # are the positions in F matrix that were reduced
-    
-    # loops through each run in conts which are the many matrices in F.new
-    # then loops through all the pigments that did reduce in cont1
-    # F.news <- sapply(conts, function(i) {
-    #   sapply(cont1, function(j) {
-    #     F.locs[[length(F.locs) + 1]] <- F.new[[i]][[1]][[j]]
-    #   })
-    # })
-    F.news <- vector(length = length(conts))
+    F.news <- vector(length = length(conts)) # initialize new ratios
     for (i in 1:length(conts)) {
       pig_ind     <- vary[conts][i]
       F_ind       <- conts[i]
       F.news[[i]] <- F.new[[F_ind]][[1]][pig_ind]
     }
-    # if (length(F.news) > 0) {
-      # if (length(F.news) > 1) {
-      #   F.news <- diag(F.news)
-      # } else {
-      #   F.news <- F.news[[1]]
-      # }
-      # cont1 <- unlist(cont1)
-      # F.new <- replace(Fmat[[1]], cont1, F.news)
-  
-    
-    F.new <- replace(Fmat[[1]], vary[conts], F.news)
+
+    F.new <- replace(Fmat[[1]], vary[conts], F.news) # replace new ratios
     F.new <- NNLS_MF(F.new, S, cm)
-      
-    # } else {
-    # 
-    #    if (fac_rr == 1) {
-    #     
-    #     F.new <- NNLS_MF(Fmat[[1]], S, cm)
-    #     cont1 <- vary
-    #     
-    #    } else {
-    #      C      <- Fac_F_RR(Fmat, place, S, cm, fac_rr = fac_rr - 1)  # ------------
-    #      F.new  <- C[[1]]
-    #      cont1  <- C[[2]]
-    #    }
-    #   
-    # }
-  } else {
     
+  } else {
     # when no elements reduce the error
     if (fac_rr == 1) {
       F.new <- NNLS_MF(Fmat[[1]], S, cm)
-      # cont1  <- vary
-      conts  <- vary
+      conts <- vary
     } else {
-      C     <- Fac_F_RR(Fmat, place, S, cm, fac_rr = 1) # -----------------
+      C <- Fac_F_RR(Fmat, place, S, cm, fac_rr = fac_rr - 1)
       F.new <- C[[1]]
-      # cont1  <- C[[2]]
-      conts  <- C[[2]]
-    } 
-    
+      conts <- C[[2]]
+    }
   }
   
-  
-  # res <- list(F.new, cont1)
   res <- list(F.new, conts)
   return(res)
 }
