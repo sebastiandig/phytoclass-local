@@ -26,7 +26,6 @@ Replace_Rand <- function(Fmat, i, S, cm, min.scaler, max.scaler) {
   F_new    <- NNLS_MF(F_new, S, cm)
 
   # Which elements decrease the error? Store the location of the elements that decrease it
-  # v   <- which(F_new[[2]] < Fmat[[2]]) # true or false
   v   <- F_new[[2]] < Fmat[[2]] # compare RMSE from previous, if better TRUE
   res <- c(F_new, v)
 
