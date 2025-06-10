@@ -1,4 +1,4 @@
-#' Apply weights to F/S matrices
+#' Apply weights to F and S matrices
 #' 
 #' @keywords internal
 #'
@@ -8,7 +8,7 @@
 #' @return A matrix
 #'
 #' @examples
-Weight_error <- function(S, cm){
-  S <- S%*%diag(cm)
+Weight_error <- function(S, cm) {
+  S <- S %*% diag(cm)
   return(S)
 }
