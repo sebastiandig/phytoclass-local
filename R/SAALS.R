@@ -13,14 +13,22 @@
 #' @return
 #'
 #' @examples
+# SAALS <- function(Ft, min.value, max.value, place, S, cm, num.loops){
+#   g <- Steepest_Descent(Ft, place, S, cm, num.loops)
+#   err <- g[[2]]
+#   g <- g[[1]]
+#   #if (length(d) >0){
+#   #  g <- Ft
+#   #}
+#   return(list(g,err))
+# }
 
-
-SAALS <- function(Ft, min.value, max.value, place, S, cm, num.loops){
-  g <- Steepest_Descent(Ft, place, S, cm, num.loops)
+# formatting
+SAALS <- function(Ft, min.val, 
+                  max.val,
+                  place, S, cm, num.loops) {
+  g   <- Steepest_Descent(Ft, place, S, cm, num.loops)
   err <- g[[2]]
-  g <- g[[1]]
-  #if (length(d) >0){
-  #  g <- Ft
-  #}
-  return(list(g,err))
+  g   <- g[[1]]
+  return(list(g, err))
 }
