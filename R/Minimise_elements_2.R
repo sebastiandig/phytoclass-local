@@ -31,24 +31,6 @@ Minimise_elements_2 <- function(Fmat, place, S, cm, .num = c(1, 2, 3), .fac_rr =
   # Fac_F new matrix
   g <- Fac_F_RR(F.new, vary = place, place = place1, S, cm, fac_rr = .fac_rr) 
   
-  # # Fac_F new matrix
-  # if (.fac_rr == 1) {
-  #   # g <- Fac_F_RR1(F.new, place, S, cm)
-  #   # g <- Fac_F_RR1(Fmat = F.new, vary = place, S = S, cm = cm)
-  #   g <- Fac_F_RR(F.new, place, S, cm, fac_rr = .fac_rr)
-  #   
-  # } else if (.fac_rr == 2) {
-  #   # g <- Fac_F_RR2(F.new, vary = place, place, S, cm)
-  #   # g <- Fac_F_RR2(Fmat = F.new, vary = place, place = place, S = S, cm = cm)
-  #   g <- Fac_F_RR(F.new, vary = place, place = place1, S, cm, fac_rr = .fac_rr) 
-  #   
-  # } else if (.fac_rr == 3) {
-  #   # g <- Fac_F_RR3(F.new, vary = place, place, S, cm)
-  #   # g <- Fac_F_RR3(Fmat = F.new, vary = place, place = place, S = S, cm = cm)
-  #   g <- Fac_F_RR(F.new, vary = place, place = place1, S, cm, fac_rr = .fac_rr)
-  #   
-  # }
-  
   if (g[[1]][[2]] < F.initial[[2]]) {
     F.new <- g[[1]]
   }
