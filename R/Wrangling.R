@@ -5,7 +5,7 @@
 #' 
 #' @keywords internal
 #'
-#' @param Fl      A matrix of the initial F matrix (i.e. pigment ratio matrix)
+#' @param Fl      A matrix of initial F (i.e. pigment ratio matrix)
 #' @param min.val A vector of the minimum values for each non-zero pigment ratios 
 #' @param max.val A vector of the maximum values for each non-zero pigment ratios
 #'
