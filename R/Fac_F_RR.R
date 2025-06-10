@@ -3,10 +3,12 @@
 #' 
 #' @keywords internal 
 #'
-#' @param Fmat XX
+#' @param Fmat A list containing `F matrix`, `RMSE` and `C matrix`
 #' @param vary Are the index of the non-zero integers to vary
-#' @param S XX
-#' @param cm XX
+#' @param S A matrix of samples (rows) and pigments (columns)
+#' @param cm A vector of bounded weights for each pigment
+#' @param fac_rr A numeric to call which scaler values to use
+#' @param place A vector of all the indexs of non-zero pigment ratios
 #'
 #' @return
 #'
@@ -60,7 +62,7 @@ Fac_F_RR <- function(Fmat, vary, S, cm, fac_rr = c(1, 2, 3), place = NULL) {
       F.new <- NNLS_MF(Fmat[[1]], S, cm)
       conts <- vary
     } else {
-      C <- Fac_F_RR(Fmat, place, S, cm, fac_rr = fac_rr - 1)
+      C <- Fac_F_RR(Fmat, place, S, cm, fac_rr = fac_rr - 1, place = place)
       F.new <- C[[1]]
       conts <- C[[2]]
     }
@@ -69,177 +71,3 @@ Fac_F_RR <- function(Fmat, vary, S, cm, fac_rr = c(1, 2, 3), place = NULL) {
   res <- list(F.new, conts)
   return(res)
 }
-
-
-# ============================================================================ #
-
-
-# Fac_F_RR1 <- function(Fmat, vary, S, cm) {
-#   # ----
-#   F.locs <- vector()
-# 
-#   F.new <- lapply(vary, function(i) { # randomises every element in 'vary'
-#     Replace_Rand(Fmat, i, S, cm, min.scaler = 0.99, max.scaler = 1.01)
-#   })
-# 
-#   # Shows which elements reduce error
-#   cont <- lapply(1:length(F.new), function(i) {
-#     c <- which(length(F.new[[i]]) == 4)
-#   })
-#   
-#   conts <- which(cont == 1)
-# 
-#   # ----
-# 
-#   # Procedure for if no elements reduce error
-#   if (!is.null(length(conts))) {
-#             # cont  <- as.list(vary[conts])
-#             # conts <- as.list(conts)
-#             # Locs  <- cont
-#             # 
-#             # F.news <- sapply(conts, function(i) {
-#             #   sapply(cont, function(j) {
-#             #     F.locs[[length(F.locs) + 1]] <- F.new[[i]][[1]][[j]]
-#             #   })
-#             # })
-#         
-#             if (length(F.news) > 0) {
-#               
-#                               # if (length(F.news) > 1) {
-#                               #                             F.news <- diag(F.news)
-#                               # } else {
-#                               #                             F.news <- F.news[[1]]
-#                               # }
-#                               
-#                               # cont  <- unlist(cont)
-#                               # F.new <- replace(Fmat[[1]], cont, F.news)
-#                               # F.new <- NNLS_MF(F.new, S, cm)
-#               
-#             } else {
-#                           F.new <- NNLS_MF(Fmat[[1]], S, cm)
-#                           cont <- vary
-#             }
-#             
-#             
-#   } else {
-#             F.new <- NNLS_MF(Fmat[[1]], S, cm)
-#             cont <- vary
-#   }
-# 
-# 
-#   res <- list(F.new, cont)
-#   return(res)
-# }
-# 
-# Fac_F_RR2 <- function(Fmat, vary, place, S, cm) {
-#   # ----
-#   F.locs <- vector()
-#   F.new  <- lapply(vary, function(i) {
-#     Replace_Rand(Fmat, i, S, cm, min.scaler = 0.98, max.scaler = 1.02)
-#   })
-#   
-#   cont <- lapply(1:length(F.new), function(i) {
-#     c  <- which(length(F.new[[i]]) == 4)
-#   })
-#   
-#   conts <- which(cont == 1)
-#   
-#   
-#   # ----
-#   if (!is.null(length(conts))) {
-#     
-#             # cont   <- as.list(vary[conts])
-#             # conts  <- as.list(conts)
-#             # Locs   <- cont
-#             # F.news <- sapply(conts, function(i) {
-#             #   sapply(cont, function(j) {
-#             #     F.locs[[length(F.locs) + 1]] <- F.new[[i]][[1]][[j]]
-#             #   })
-#             # })
-#             
-#             if (length(F.news) > 0) {
-#               
-#                                     # if (length(F.news) > 1) {
-#                                     #                           F.news <- diag(F.news)
-#                                     #   
-#                                     # } else {
-#                                     #                           F.news <- F.news[[1]]
-#                                     # }
-#                                     
-#                                     # cont  <- unlist(cont)
-#                                     # F.new <- replace(Fmat[[1]], cont, F.news)
-#                                     # F.new <- NNLS_MF(F.new, S, cm)
-#               
-#             } else {
-#                                     # diff
-#                                     C     <- Fac_F_RR1(Fmat, place, S, cm)
-#                                     F.new <- C[[1]]
-#                                     cont  <- C[[2]]
-#             }
-#     
-#   } else {
-#             # diff
-#             C     <- Fac_F_RR1(Fmat, place, S, cm)
-#             F.new <- C[[1]]
-#             cont  <- C[[2]]
-#   }
-#   
-#   res <- list(F.new, cont)
-#   return(res)
-# }
-# 
-# Fac_F_RR3 <- function(Fmat, vary, place, S, cm) {
-#   # ----
-#   F.locs <- vector()
-#   F.new  <- lapply(vary, function(i) {
-#     Replace_Rand(Fmat, i, S, cm, min.scaler = 0.97, max.scaler = 1.03)
-#   })
-#   
-#   cont <- lapply(1:length(F.new), function(i) {
-#     c <- which(length(F.new[[i]]) == 4)
-#   })
-#   
-#   conts <- which(cont == 1)
-#   
-#   
-#   # ----
-#   
-#   if (!is.null(length(conts))) {
-#     # cont   <- as.list(vary[conts])
-#     # conts  <- as.list(conts)
-#     # Locs   <- cont
-#     # F.news <- sapply(conts, function(i) {
-#     #   sapply(cont, function(j) {
-#     #     F.locs[[length(F.locs) + 1]] <- F.new[[i]][[1]][[j]]
-#     #   })
-#     # })
-#     
-#     if (length(F.news) > 0) {
-#       
-#       # if (length(F.news) > 1) {
-#       #                            F.news <- diag(F.news)
-#       #   
-#       # } else {
-#       #                            F.news <- F.news[[1]]
-#       # }
-#       
-#       # cont <- unlist(cont)
-#       # F.new <- replace(Fmat[[1]], cont, F.news)
-#       # F.new <- NNLS_MF(F.new, S, cm)
-#       
-#     } else {
-#       # diff
-#       C     <- Fac_F_RR2(Fmat, vary, place, S, cm)
-#       F.new <- C[[1]]
-#       cont  <- C[[2]]
-#     }
-#     
-#   } else {
-#     # diff
-#     C     <- Fac_F_RR1(Fmat, place)
-#     F.new <- C[[1]]
-#     cont  <- C[[2]]
-#   }
-#   res <- list(F.new, cont)
-#   return(res)
-# }
