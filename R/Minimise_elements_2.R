@@ -11,7 +11,6 @@
 #'
 #' @examples
 Minimise_elements_2 <- function(Fmat, place, S, cm, .num = c(1, 2, 3), .fac_rr = c(1, 2, 3)) { 
-  # f     <- Conduit_3(Fmat, place, S, cm) # Calls index function
   f     <- Conduit(Fmat, place, S, cm, num = .num) # Calls index function
   F.new <- f[[1]] # F matrix
   n     <- f[[2]] # elements that reduce error
