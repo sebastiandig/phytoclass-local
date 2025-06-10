@@ -20,9 +20,9 @@ Conduit <- function(Fmat, place, S, cm, num = c(1, 2, 3)) {
   }
   
   F.news <- Fac_F_RR(F.old, vary = place, place = place1, S, cm, fac_rr = num)
-  F.new <- F.news[[1]]
-  n     <- F.news[[2]]
-  res   <- list(F.new, n, F.old)
+  F.new  <- F.news[[1]]
+  n      <- F.news[[2]]
+  res    <- list(F.new, n, F.old)
   
   return(res)
 }
