@@ -3,8 +3,8 @@
 #' @keywords internal
 #'
 #' @param x   xx
-#' @param min.scaler     xx 
-#' @param max.scaler     xx
+#' @param min.scaler A min constant to multiply the x by (<1)
+#' @param max.scaler A max constant to multiply the x by (>1) 
 #'
 #' @return numeric
 #'
@@ -12,4 +12,9 @@
 Randomise_elements <- function(x, min.scaler, max.scaler){
   x <- ifelse(x<0.001, 0.001, x)
   round(runif(n=1, min = x*min.scaler, max = x*max.scaler), digits = 4)
+}
+
+Randomise_elements <- function(x, min.scaler, max.scaler) {
+  x[x < 0.001] <- 0.001
+  round(runif(n = 1, min = x * min.scaler, max = x * max.scaler), digits = 4)
 }
