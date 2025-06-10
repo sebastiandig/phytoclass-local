@@ -20,9 +20,6 @@ Minimise_elements_2 <- function(Fmat, place, S, cm, .num = c(1, 2, 3), .fac_rr =
     n <- place
   }
   
-  F.old     <- f[[3]] # old F matrix
-  F.initial <- F.new # Fac_F new matrix
-  
   place1 <- NULL
   if (.num != 1) {
     place1 <- place
@@ -31,12 +28,9 @@ Minimise_elements_2 <- function(Fmat, place, S, cm, .num = c(1, 2, 3), .fac_rr =
   # Fac_F new matrix
   g <- Fac_F_RR(F.new, vary = place, place = place1, S, cm, fac_rr = .fac_rr) 
   
-  if (g[[1]][[2]] < F.initial[[2]]) {
+  if (g[[1]][[2]] < F.new[[2]]) {
     F.new <- g[[1]]
   }
-  
-  n   <- g[[2]]
-  res <- list(F.new, n)
   
   return(F.new)
 }
