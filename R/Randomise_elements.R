@@ -2,7 +2,7 @@
 #' 
 #' @keywords internal
 #'
-#' @param x   xx
+#' @param x          A vector or matrix of values
 #' @param min.scaler A min constant to multiply the x by (<1)
 #' @param max.scaler A max constant to multiply the x by (>1) 
 #'
