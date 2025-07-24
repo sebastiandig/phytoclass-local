@@ -89,3 +89,4 @@ Matrix_checks <- function(S, Fmat) {
   
 }
 
+
