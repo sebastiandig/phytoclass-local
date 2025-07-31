@@ -12,7 +12,8 @@ simulated_annealing(
   niter = 500,
   step = 0.009,
   weight.upper.bound = 30,
-  verbose = TRUE
+  verbose = TRUE,
+  seed = NULL
 )
 }
 \arguments{
