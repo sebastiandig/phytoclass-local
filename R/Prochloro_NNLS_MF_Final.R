@@ -56,38 +56,10 @@ Prochloro_NNLS_MF_Final <- function(Fn, S, S_Chl, S_weights, S_dvChl) {
   cd <- kappa(Fn %*% t(S))
   
   
+  # ---- plot final results ---- #
   plt <- phyto_figure(Cn2)
   
-  # # NULL assignment to stop NOTE during the package "Check"
-  # #  -  no visible binding for global variable
-  # vals    <- NULL
-  # row_num <- NULL
-  # 
-  # # ---- plot final results ---- #
-  # PLE <- tidyr::pivot_longer(
-  #   data      = cbind(Cn2, "row_num" = seq(nrow(Cn2))), 
-  #   cols      = -row_num, 
-  #   names_to  = "names", 
-  #   values_to = "vals"
-  #   )
-  # 
-  # colorBlindGrey8 <- c("#999999", "#E69F00", "#56B4E9", "#009E73", "#F0E442", 
-  #                      "#0072B2", "#D55E00", "#CC79A7", "#009E73", 
-  #                      "#001E73", "#013E73")
-  # plt <- 
-  #   ggplot2::ggplot(
-  #     PLE,
-  #     ggplot2::aes(x = row_num, y = vals, fill = names)
-  #     ) + 
-  #   ggplot2::geom_area() + 
-  #   ggplot2::scale_color_manual(values = colorBlindGrey8) + 
-  #   ggplot2::scale_fill_manual(values = colorBlindGrey8) + 
-  #   ggplot2::labs(
-  #     x = "Sample number",
-  #     y = "Chl a concentrations"
-  #     ) +
-  #   ggplot2::theme_bw()
-  
+ 
   row.names(Cn2) <- row.names(S_residual)
   
   return(list(
