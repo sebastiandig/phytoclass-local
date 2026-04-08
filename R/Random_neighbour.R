@@ -34,7 +34,7 @@
 #'  # Run Random_neighbour
 #'  result <- phytoclass:::Random_neighbour(Fmat, Temp, chlv, N, place, S, S_weights, minF, maxF)
 Random_neighbour <- function(f_new, Temp, chlv, N, place, S, S_weights, minF, maxF) {
-  
+
   # extract ratios to be changed
   k     <- match(N, place)
   p_chg <- vectorise(f_new)[k] 
@@ -44,6 +44,12 @@ Random_neighbour <- function(f_new, Temp, chlv, N, place, S, S_weights, minF, ma
   # randomize pigment ratios
   rand  <- round(runif(n = length(N), -1, 1), 4)
   p_new <- p_chg + (Temp) * (maxF - minF) * rand # new values for ratios
+  
+  # if min and max are equal, set value to this
+  if (any(minF == maxF)) {
+    idx <- which(minF == maxF)
+    p_new[idx] <- minF[idx]
+  }
   oob   <- which(p_new < minF | p_new > maxF)    # out of bounds ratios
 
   loop <- 0
@@ -133,6 +139,13 @@ Prochloro_Random_Neighbour <- function(
   # randomize pigment ratios
   rand  <- round(runif(n = length(p_chg), -1, 1), 4)
   p_new <- p_chg + Temp * (maxF - minF) * rand # new values for ratios
+  
+  # if min and max are equal, set value to this
+  if (any(minF == maxF)) {
+    idx <- which(minF == maxF)
+    p_new[idx] <- minF[idx]
+  }
+  
   oob   <- which(p_new < minF | p_new > maxF)      # out of bounds ratios
   
   loop <- 0
