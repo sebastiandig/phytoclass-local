@@ -45,12 +45,14 @@ annealing function. I would use this with more caution.
 It can be installed from CRAN with:
 
 ``` r
+
 install.packages("phytoclass")
 ```
 
 Or the development version from [GitHub](https://github.com/) with:
 
 ``` r
+
 # install.packages("devtools")
 devtools::install_github("AndyMcKenzieFromNZ/phytoclass")
 ```
@@ -60,6 +62,7 @@ devtools::install_github("AndyMcKenzieFromNZ/phytoclass")
 For the built-in samples matrix Sm of pigment samples:
 
 ``` r
+
 library(phytoclass)
 set.seed("84545")
 
@@ -194,9 +197,9 @@ If used please cite the following paper:
 - [`Cluster()`](Cluster.md) : Cluster things
 - [`Fm`](Fm.md) : Fm data
 - [`Fp`](Fp.md) : Fp data
-- [`Matrix_checks()`](Matrix_checks.md) : Remove any column values that
-  average 0. Further to this, also remove phytoplankton groups from the
-  F matrix if their diagnostic pigment isn’t present.
+- [`Matrix_checks()`](Matrix_checks.md) : This function ensures S and F
+  matrices are properly formatted and ordered for the simulated
+  annealing function.
 - [`NNLS_MF()`](NNLS_MF.md) : Performs the non-negative matrix
   factorisation for given phytoplankton pigments and pigment ratios, to
   attain an estimate of phytoplankton class abundances.
@@ -227,7 +230,7 @@ If used please cite the following paper:
 ### All vignettes
 
 - [Common Issues : F Matrix](common-issues-f-matrix.md):
-- [Example Usage : custom F & MinMax Matrices](custom-example.md):
+- [Example Usage : Custom F & MinMax Matrices](custom-example.md):
 - [Example : Minimal](minimal-example.md):
 - [Table of Default F MinMax Values](minmax.md):
 - [The phytoclass package](phytoclass-vignette.md):

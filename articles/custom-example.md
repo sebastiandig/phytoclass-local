@@ -1,6 +1,21 @@
-# Example Usage : custom F & MinMax Matrices
+# Example Usage : Custom F & MinMax Matrices
+
+Phytoclass uses three input matrices:
+
+- `S` : The pigment values from field samples.
+- `F` : Defines which pigments are present in each taxa.
+- `min_max` : Specifies limits of taxa contributions for each pigment.
+
+The `F` and `min_max` matrices built into phytoclass are designed for
+general use. Specifying maxtrices tailored to a specific study region
+can improve accuracy of results.
+
+In this example we provide an `F` and `min_max` matrices which have been
+derived from a standard deviation calculation on pigment-to-chlorophyll
+ratios found in literature about the Southern Ocean.
 
 ``` r
+
 library(phytoclass)
 
 library(here)
@@ -9,6 +24,7 @@ library(here)
     ## here() starts at /home/runner/work/phytoclass-local/phytoclass-local
 
 ``` r
+
 # Load the sample matrix from a file
 # If your file does not contain sample names (e.g., Sample_1, Sample_2), you may omit `row.names = 1`
 # In that case, do: S_matrix <- read.csv(here("vignettes/custom-example-S.csv"))
@@ -16,43 +32,28 @@ S_matrix <- read.csv(here("vignettes/custom-example-S.csv"), row.names = 1)
 ```
 
 ``` r
+
 # pigment-taxa occurrence matrix (specific to an oceanographic region)
-F_matrix <- read.csv(here("vignettes/custom-example-F.csv"))
+F_matrix <- read.csv(here("vignettes/custom-example-F.csv"), row.names = 1)
 ```
 
 ``` r
+
 # === remove numeric rownames introduced by read.csv
 if (all(grepl("^[0-9]+$", rownames(F_matrix)))) {
   print("dropping unneeded numeric index")
   # Set the first column as row names
   rownames(F_matrix) <- F_matrix[[1]]
-  
-  # Remove the first column
-  F_matrix <- F_matrix[, -1] 
 }
 ```
 
-    ## [1] "dropping unneeded numeric index"
-
 ``` r
-min_max_matrix <- read.csv(here("vignettes/custom-example-min_max.csv"))
+
+min_max_matrix <- read.csv(here("vignettes/custom-example-min_max-southern_ocean.csv"))
 ```
 
 ``` r
-# === remove numeric rownames introduced by read.csv
-if (all(grepl("^[0-9]+$", rownames(min_max_matrix)))) {
-  print("dropping unneeded numeric index")
-  # Set the first column as row names
-  rownames(min_max_matrix) <- min_max_matrix[[1]]
-  
-  # Remove the first column
-  min_max_matrix <- min_max_matrix[, -1] 
-}
-```
 
-    ## [1] "dropping unneeded numeric index"
-
-``` r
 phytoclass::simulated_annealing(
   S_matrix,
   Fmat = F_matrix,
@@ -60,6 +61,10 @@ phytoclass::simulated_annealing(
   verbose = FALSE
 )
 ```
+
+    ## Removing pigments that occur in less than 1% of samples: Per, X19but, Fuco, Neox, Pra, Viol, X19hex, Allo, Zea, Chl_b, Tchla
+
+    ## Removing phytoplankton taxa that map to one pigment or less:
 
     ## $`F matrix`
     ##                      Per X19but   Fuco   Neox        Pra      Viol X19hex
@@ -151,7 +156,7 @@ phytoclass::simulated_annealing(
     ## 
     ## $Figure
 
-![](custom-example_files/figure-html/unnamed-chunk-6-1.png)
+![](custom-example_files/figure-html/unnamed-chunk-5-1.png)
 
     ## 
     ## $MAE
@@ -2857,4 +2862,4 @@ phytoclass::simulated_annealing(
     ## 
     ## $converge_plot
 
-![](custom-example_files/figure-html/unnamed-chunk-6-2.png)
+![](custom-example_files/figure-html/unnamed-chunk-5-2.png)
